@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#073d32" />
+    <title>Mosquée Anas Ibn Malik — Horaires de prière</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="screen">
+      <header class="header">
+        <div class="brand">
+          <p class="arabic brand-ar" lang="ar" dir="rtl">مسجد أنس بن مالك</p>
+          <h1>Mosquée Anas Ibn Malik</h1>
+          <p id="location">La Réunion</p>
+        </div>
+        <div class="clock-card" aria-label="Heure actuelle">
+          <p id="today">—</p>
+          <time id="clock">--:--:--</time>
+        </div>
+      </header>
+
+      <section class="next-prayer" aria-live="polite">
+        <p>Prochaine prière <span class="arabic" lang="ar" dir="rtl">الصلاة القادمة</span></p>
+        <div><strong id="next-name">—</strong><span id="next-time">—</span></div>
+        <p class="countdown" id="countdown">Calcul en cours…</p>
+      </section>
+
+      <section class="prayer-grid" id="prayer-grid" aria-label="Horaires de prière"></section>
+
+      <section class="bottom-row">
+        <article class="reminder">
+          <p class="eyebrow">RAPPEL DU JOUR</p>
+          <p id="reminder-text">La prière est prescrite aux croyants à des temps déterminés.</p>
+          <p id="reminder-source" class="source">Coran, 4:103</p>
+        </article>
+        <article class="notice">
+          <p class="eyebrow">ANNONCE</p>
+          <p id="notice-text">Bienvenue à la Mosquée Anas Ibn Malik.</p>
+        </article>
+      </section>
+    </main>
+    <footer class="ticker" aria-label="Annonces de la mosquée"><span id="ticker-text"></span></footer>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
