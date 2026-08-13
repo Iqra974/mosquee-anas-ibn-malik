@@ -1,7 +1,7 @@
 window.MOSQUEE_CONFIG = {
   mosqueName: "Mosquée Anas Ibn Malik",
   mosqueNameArabic: "مسجد أنس بن مالك",
-  location: "La Réunion",
+  location: "",
   timezone: "Indian/Reunion",
 
   // Laisser vide pour utiliser automatiquement le calendrier hégirien du navigateur.
