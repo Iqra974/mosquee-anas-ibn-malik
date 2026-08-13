@@ -3,15 +3,18 @@
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#062d30"><title>Mosquée Anas Ibn Malik</title><link rel="stylesheet" href="style.css"></head>
 <body>
 <main class="screen">
-  <header class="top"><div><h1>Mosquée Anas Ibn Malik</h1><p class="brand-ar" lang="ar" dir="rtl">مسجد أنس بن مالك</p></div><p id="location">La Réunion</p></header>
-  <section class="dashboard">
-    <aside class="side-card sunrise"><span class="icon">☀</span><span>CHOUROUQ</span><strong id="sunrise">--:--</strong></aside>
-    <section class="clock-panel"><time id="clock">--:--:--</time><p id="today">—</p></section>
-    <aside class="side-card jumua"><span class="icon">◈</span><span>JUMU'A</span><strong id="jumua-time">—</strong></aside>
+  <section class="info-panel">
+    <header class="top"><div><h1>Mosquée Anas Ibn Malik</h1><p class="brand-ar" lang="ar" dir="rtl">مسجد أنس بن مالك</p></div><p id="location">La Réunion</p></header>
+    <section class="dashboard">
+      <aside class="side-card sunrise"><span class="icon">☀</span><span>CHOUROUQ</span><strong id="sunrise">--:--</strong></aside>
+      <section class="clock-panel"><time id="clock">--:--:--</time><p id="today">—</p></section>
+      <aside class="side-card jumua"><span class="icon">◈</span><span>JUMU'A</span><strong id="jumua-time">—</strong></aside>
+    </section>
+    <section class="next-strip"><strong id="next-name">—</strong><span id="countdown">Calcul en cours…</span></section>
+    <section class="prayer-grid" id="prayer-grid" aria-label="Les cinq prières"></section>
+    <section class="bottom"><div><b>ANNONCE</b><span id="notice-text"></span></div><div class="reminder"><span id="reminder-text"></span><small id="reminder-source"></small></div></section>
   </section>
-  <section class="next-strip"><strong id="next-name">—</strong><span id="countdown">Calcul en cours…</span></section>
-  <section class="prayer-grid" id="prayer-grid" aria-label="Les cinq prières"></section>
-  <section class="bottom"><div><b>ANNONCE</b><span id="notice-text"></span></div><div class="reminder"><span id="reminder-text"></span><small id="reminder-source"></small></div></section>
+  <aside class="mosque-photo" aria-label="Photo de la Mosquée Anas Ibn Malik"><div class="photo-caption"><strong>Mosquée Anas Ibn Malik</strong><span>La Réunion</span></div></aside>
 </main>
 <footer class="ticker"><span id="ticker-text"></span></footer>
 <script src="config.js"></script><script src="app.js"></script>
