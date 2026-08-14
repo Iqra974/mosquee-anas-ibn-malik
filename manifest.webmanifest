@@ -1,0 +1,12 @@
+{
+  "name": "Mosquée Anas Ibn Malik — Horaires",
+  "short_name": "Anas Ibn Malik",
+  "description": "Affichage des horaires de prière de la Mosquée Anas Ibn Malik",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#243238",
+  "theme_color": "#062d30",
+  "icons": []
+}
