@@ -1,6 +1,6 @@
-const CACHE='anas-mosquee-display-v3';
+const CACHE='anas-mosquee-display-v4';
 const CORE=[
-  './index.html','./style.css','./app.js','./config.js',
+  './index.html','./style.css','./mobile.css','./app.js','./config.js',
   './horaires_priere_zone_sud_reunion_complet.json',
   './images/IMG_20260809_195313.png','./images/minbar.png','./manifest.webmanifest'
 ];
