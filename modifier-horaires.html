@@ -23,7 +23,7 @@
     <p class="intro">Mosquée Anas Ibn Malik<br><span class="arabic" lang="ar" dir="rtl">مسجد أنس بن مالك</span></p>
     <section class="card">
       <h2>Horaires du jour</h2>
-      <p class="small">Cette page modifie uniquement l’adhan, l’heure de prière et Jumu‘a. Les annonces défilantes ne peuvent pas être modifiées ici.</p>
+      <p class="small">Cette page modifie uniquement l’adhan, l’heure de prière et Jumu‘a. Maghrib reste automatique. Les annonces défilantes ne peuvent pas être modifiées ici.</p>
       <div class="notice">Avant d’enregistrer, vérifiez soigneusement chaque heure. La télévision se mettra à jour automatiquement.</div>
       <label for="editor">Votre prénom ou nom</label>
       <input id="editor" maxlength="80" autocomplete="name" placeholder="Ex. Ahmed">
@@ -39,7 +39,7 @@
   </main>
   <script>
     const SB=window.MOSQUEE_SUPABASE, ID='anas-ibn-malik';
-    const prayers=[['Fajr','الفجر'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']];
+    const prayers=[['Fajr','الفجر'],['Dhuhr','الظهر'],['Asr','العصر'],['Isha','العشاء']];
     const $=id=>document.getElementById(id);
     const show=(message,type)=>{status.textContent=message;status.className='status '+type};
     function timeInput(id,value){return '<input id="'+id+'" class="time" inputmode="numeric" maxlength="5" placeholder="HH:MM" value="'+(value||'')+'">'}
