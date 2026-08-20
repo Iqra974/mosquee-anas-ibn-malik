@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#063b3c">
+  <title>Modifier les horaires — Mosquée Anas Ibn Malik</title>
+  <script src="supabase-config.js?v=20260820public-times"></script>
+  <style>
+    :root{--green:#063b3c;--panel:#0b5051;--gold:#f4bb3e;--cream:#f3f7f4;--ink:#173234}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(155deg,#062f31,#075e5c);color:#fff;font:17px Arial,sans-serif;min-height:100vh}
+    main{max-width:720px;margin:auto;padding:22px 16px 42px} h1{color:var(--gold);font-size:clamp(2rem,9vw,3.1rem);line-height:1.05;margin:10px 0} h2{font-size:1.12rem;margin:0 0 8px;color:var(--gold)}
+    .card{background:rgba(5,54,55,.92);border:1px solid #c99a3e;border-radius:20px;padding:18px;margin-top:18px}.intro{line-height:1.45;margin:0}.notice{background:#e9f4ee;color:var(--ink);border-radius:13px;padding:14px;margin-top:15px;font-weight:700;line-height:1.4}
+    label{display:block;margin-top:14px;font-weight:700} input{display:block;width:100%;margin-top:7px;border:2px solid #a9c4bf;border-radius:12px;background:#fff;color:#132c2d;padding:14px;font-size:18px}
+    table{width:100%;border-collapse:collapse;margin-top:14px} th,td{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,.2);text-align:center} th:first-child,td:first-child{text-align:left} th{color:#f4d487;font-size:.88rem} .arabic{display:block;color:#bcd9d4;font-size:.9rem;margin-top:3px}
+    input.time{width:92px;min-width:0;padding:11px 6px;text-align:center;font-size:17px;margin:0 auto} button{width:100%;border:0;border-radius:14px;padding:16px;margin-top:18px;background:var(--gold);color:#173234;font-size:19px;font-weight:800}.status{display:none;margin-top:15px;border-radius:12px;padding:13px;font-weight:700;line-height:1.4}.status.ok{display:block;background:#dff5d9;color:#1a4a1f}.status.error{display:block;background:#ffe2e2;color:#7b2020}.small{font-size:.84rem;line-height:1.4;opacity:.88}
+    @media(max-width:460px){main{padding:16px 12px 34px}.card{padding:15px 11px}table{font-size:15px}th,td{padding:10px 2px}.arabic{font-size:.8rem}input.time{width:82px;font-size:16px;padding:10px 3px}h1{font-size:2.2rem}}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Modifier les horaires</h1>
+    <p class="intro">Mosquée Anas Ibn Malik<br><span class="arabic" lang="ar" dir="rtl">مسجد أنس بن مالك</span></p>
+    <section class="card">
+      <h2>Horaires du jour</h2>
+      <p class="small">Cette page modifie uniquement l’adhan, l’heure de prière et Jumu‘a. Les annonces défilantes ne peuvent pas être modifiées ici.</p>
+      <div class="notice">Avant d’enregistrer, vérifiez soigneusement chaque heure. La télévision se mettra à jour automatiquement.</div>
+      <label for="editor">Votre prénom ou nom</label>
+      <input id="editor" maxlength="80" autocomplete="name" placeholder="Ex. Ahmed">
+      <table>
+        <thead><tr><th>Prière</th><th>🔊 Adhan</th><th>🕌 Prière</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <label for="jumua">Jumu‘a — heure de prière</label>
+      <input id="jumua" class="time" inputmode="numeric" maxlength="5" placeholder="HH:MM">
+      <button id="save">✓ Enregistrer les horaires</button>
+      <div id="status" class="status"></div>
+    </section>
+  </main>
+  <script>
+    const SB=window.MOSQUEE_SUPABASE, ID='anas-ibn-malik';
+    const prayers=[['Fajr','الفجر'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']];
+    const $=id=>document.getElementById(id);
+    const show=(message,type)=>{status.textContent=message;status.className='status '+type};
+    function timeInput(id,value){return '<input id="'+id+'" class="time" inputmode="numeric" maxlength="5" placeholder="HH:MM" value="'+(value||'')+'">'}
+    function formatInputs(){document.querySelectorAll('.time').forEach(i=>i.addEventListener('input',()=>{const d=i.value.replace(/\D/g,'').slice(0,4);i.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d}))}
+    function valid(v){return /^([01]\d|2[0-3]):[0-5]\d$/.test(v)}
+    async function load(){try{const r=await fetch(SB.url+'/rest/v1/mosque_settings?id=eq.'+ID+'&select=prayers,adhan,jumua',{headers:{apikey:SB.anonKey},cache:'no-store'});const rows=await r.json();if(!r.ok||!rows[0])throw Error('Impossible de charger les horaires.');const s=rows[0];$('rows').innerHTML=prayers.map(([name,ar])=>'<tr><td><strong>'+name+'</strong><span class="arabic" lang="ar" dir="rtl">'+ar+'</span></td><td>'+timeInput('adhan'+name,s.adhan?.[name])+'</td><td>'+timeInput('prayer'+name,s.prayers?.[name])+'</td></tr>').join('');jumua.value=s.jumua||'';formatInputs()}catch(e){show(e.message,'error')}}
+    save.onclick=async()=>{const editor=$('editor').value.trim(), adhan={}, prayersOut={};if(editor.length<2)return show('Indiquez votre prénom ou votre nom.','error');for(const [name] of prayers){adhan[name]=$('adhan'+name).value;prayersOut[name]=$('prayer'+name).value;if(!valid(adhan[name])||!valid(prayersOut[name]))return show('Saisissez une heure valide pour '+name+' : par exemple 05:45.','error')}if(jumua.value&&!valid(jumua.value))return show('L’heure de Jumu’a doit être au format HH:MM.','error');save.disabled=true;save.textContent='Enregistrement…';try{const r=await fetch(SB.url+'/functions/v1/update-public-times',{method:'POST',headers:{apikey:SB.anonKey,'Content-Type':'application/json'},body:JSON.stringify({editor,adhan,prayers:prayersOut,jumua:jumua.value})});const d=await r.json();if(!r.ok)throw Error(d.error||'Enregistrement impossible.');show('✓ Horaires enregistrés. La télévision sera actualisée automatiquement.','ok')}catch(e){show(e.message,'error')}finally{save.disabled=false;save.textContent='✓ Enregistrer les horaires'}};
+    load();
+  </script>
+</body>
+</html>
