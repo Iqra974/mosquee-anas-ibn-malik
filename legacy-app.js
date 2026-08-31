@@ -14,16 +14,18 @@ function corrected(v,pm,key){return shift(fmt(v,pm),corrections[key]||0);}
 function findDay(){var p=parts(),i,d;for(i=0;i<calendar.length;i++){d=calendar[i];if(parseInt(d.mois_numero,10)===p.month&&parseInt(d.jour,10)===p.day)return d;}return null;}
 function cfgPrayer(name,fallback){var i,p;if(settings.prayers&&settings.prayers[name])return settings.prayers[name];for(i=0;i<(config.prayers||[]).length;i++){p=config.prayers[i];if(p.name===name)return p.iqama||p.time||fallback;}return fallback;}
 function adhan(name,fallback){if(name==='Maghrib')return fallback;if(settings.adhan&&settings.adhan[name])return settings.adhan[name];return fallback;}
+function hijriText(){var h=settings.hijri;if(!h)return'—';if(typeof h==='string')return h;if(h.text)return h.text;if(h.date)return h.date;if(h.label)return h.label;var parts=[];if(h.day)parts.push(h.day);if(h.month)parts.push(h.month);if(h.year)parts.push(h.year);return parts.length?parts.join(' '):'—';}
 function render(){var d=findDay();if(!d)return;var auto={Fajr:corrected(d.subh_sadiq,false,'subh_sadiq'),Dhuhr:corrected(d.zohr,true,'zohr'),Asr:corrected(d.asr,true,'asr'),Maghrib:corrected(d.maghreb,true,'maghreb'),Isha:corrected(d.isha,true,'isha')};var names=['Fajr','Dhuhr','Asr','Maghrib','Isha'],html='',starts='',i,n,a,q;
 $('sunrise').textContent=corrected(d.lever_soleil,false,'lever_soleil');
 $('jumua-time').textContent=settings.jumua||config.jumua||'—';
+if($('hijri-date'))$('hijri-date').textContent=hijriText();
 for(i=0;i<names.length;i++){n=names[i];a=adhan(n,auto[n]);q=n==='Maghrib'?a:cfgPrayer(n,a);html+='<article class="prayer"><h2>'+n+'</h2><div class="prayer-main"><time>'+q+'</time></div><p class="adhan-line"><span class="adhan-icon">🔊</span><strong>'+a+'</strong></p></article>';starts+='<span>'+n+' <b>'+auto[n]+'</b></span>';}
 $('prayer-grid').innerHTML=html;
 if($('solar-times'))$('solar-times').innerHTML='<strong>DÉBUT DES PRIÈRES</strong> '+starts;
 }
 function tick(){var p=parts();$('clock').textContent=pad(p.hour)+':'+pad(p.minute)+':'+pad(p.second);var days=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],months=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];$('today').textContent=days[p.weekday]+' '+p.day+' '+months[p.month-1]+' '+p.year;}
 function xhr(url,headers,cb){var x=new XMLHttpRequest();x.open('GET',url,true);var k;for(k in headers)if(headers.hasOwnProperty(k))x.setRequestHeader(k,headers[k]);x.onreadystatechange=function(){if(x.readyState===4)cb(x.status,x.responseText);};x.send();}
-function loadCalendar(){xhr('./horaires_priere_zone_sud_reunion_complet.json?v=legacy2',{},function(status,text){if(status>=200&&status<300){try{var data=JSON.parse(text);calendar=data.horaires||[];render();tick();setInterval(tick,1000);}catch(e){showError();}}else showError();});}
+function loadCalendar(){xhr('./horaires_priere_zone_sud_reunion_complet.json?v=legacy3',{},function(status,text){if(status>=200&&status<300){try{var data=JSON.parse(text);calendar=data.horaires||[];render();tick();setInterval(tick,1000);}catch(e){showError();}}else showError();});}
 function loadSettings(done){if(!sb.enabled||!sb.url||!sb.anonKey){done();return;}var url=sb.url+'/rest/v1/mosque_settings?id=eq.anas-ibn-malik&select=prayers,adhan,jumua,hijri,announcements,updated_at';xhr(url,{apikey:sb.anonKey,Accept:'application/json'},function(status,text){if(status>=200&&status<300){try{var rows=JSON.parse(text);if(rows&&rows.length)settings=rows[0]||{};}catch(e){}}done();});}
 function showError(){if($('prayer-grid'))$('prayer-grid').innerHTML='<article class="prayer"><h2>Horaires indisponibles</h2></article>';}
 document.title=(config.mosqueName||'Mosquée Anas Ibn Malik')+' — Horaires de prière';
