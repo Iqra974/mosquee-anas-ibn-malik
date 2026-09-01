@@ -1,6 +1,6 @@
-var CACHE='anas-mosquee-display-v9';
+var CACHE='anas-mosquee-display-v10';
 var CORE=['./','./index.html','./style.css','./mobile.css','./legacy-app.js','./config.js','./supabase-config.js','./horaires_priere_zone_sud_reunion_complet.json','./images/minbar.png','./manifest.webmanifest'];
-self.addEventListener('install',function(event){event.waitUntil(caches.open(CACHE).then(function(cache){var jobs=[];for(var i=0;i<CORE.length;i++){(function(asset){jobs.push(fetch(asset,{cache:'no-store'}).then(function(r){if(r&&r.ok)return cache.put(asset,r.clone());}).catch(function(){}));})(CORE[i]);}return Promise.all(jobs);}).then(function(){return self.skipWaiting();}));});
+self.addEventListener('install',function(event){event.waitUntil(caches.open(CACHE).then(function(cache){var jobs=[];for(var i=0;i<CORE.length;i++){(function(asset){jobs.push(fetch(asset+'?fresh=20260901sync2',{cache:'no-store'}).then(function(r){if(r&&r.ok)return cache.put(asset,r.clone());}).catch(function(){}));})(CORE[i]);}return Promise.all(jobs);}).then(function(){return self.skipWaiting();}));});
 self.addEventListener('activate',function(event){event.waitUntil(caches.keys().then(function(keys){var jobs=[];for(var i=0;i<keys.length;i++){if(keys[i]!==CACHE)jobs.push(caches.delete(keys[i]));}return Promise.all(jobs);}).then(function(){return self.clients.claim();}));});
 function keyFor(url){var p=url.pathname.replace('/mosquee-anas-ibn-malik/','./');return p||'./';}
 function cachedIndex(){return caches.open(CACHE).then(function(cache){return cache.match('./index.html');});}
