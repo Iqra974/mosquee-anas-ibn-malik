@@ -4,14 +4,7 @@ window.MOSQUEE_SUPABASE={
   enabled:true
 };
 (function(){
-  if(!/admin\.html(?:$|[?#])/i.test(location.pathname+location.search+location.hash))return;
-  function loadFix(){
-    if(document.getElementById('admin-save-fix-loader'))return;
-    var s=document.createElement('script');
-    s.id='admin-save-fix-loader';
-    s.src='admin-save-fix.js?v=20260901save3';
-    s.async=false;
-    (document.head||document.documentElement).appendChild(s);
-  }
+  function add(id,src){if(document.getElementById(id))return;var s=document.createElement('script');s.id=id;s.src=src;s.async=false;(document.head||document.documentElement).appendChild(s)}
+  function loadFix(){var p=location.pathname;if(/\/admin\.html$/i.test(p))add('admin-save-fix-loader','admin-save-fix.js?v=20260901save3');if(/\/modifier-horaires\.html$/i.test(p))add('public-times-save-fix-loader','public-times-save-fix.js?v=20260901save1')}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadFix);else loadFix();
 })();
